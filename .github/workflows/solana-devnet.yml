@@ -1,0 +1,42 @@
+name: Solana Devnet
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build & Test on Devnet
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: dtolnay/rust-toolchain@stable
+
+    - name: Install Solana CLI
+      run: |
+        sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
+        export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+        solana --version
+
+    - name: Install Anchor
+      run: |
+        export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+        cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+        avm install latest
+        avm use latest
+        anchor --version
+
+    - name: Build Anchor Programs
+      run: |
+        export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+        anchor build
+
+    - name: Run Tests
+      run: |
+        export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+        anchor test
+      env:
+        ANCHOR_PROVIDER_URL: https://api.devnet.solana.com
+        ANCHOR_WALLET: ${{ secrets.DEVNET_WALLET }}
