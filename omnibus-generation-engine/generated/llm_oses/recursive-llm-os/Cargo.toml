@@ -1,0 +1,19 @@
+[package]
+name = "recursive_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "OS runs a smaller OS inside itself to validate speculative LLM outputs before committing to host state."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

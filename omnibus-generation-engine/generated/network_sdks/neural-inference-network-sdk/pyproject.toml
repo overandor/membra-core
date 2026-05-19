@@ -1,0 +1,10 @@
+[project]
+name = "neural_inference_network_sdk"
+version = "0.1.0"
+description = "Distributed neural inference with pipeline parallelism and KV-cache sharding."
+requires-python = ">=3.10"
+dependencies = ["pydantic>=2.0", "anyio>=3.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

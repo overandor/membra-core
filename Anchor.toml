@@ -1,0 +1,25 @@
+[features]
+seeds = true
+skip-lint = false
+
+[programs.localnet]
+membra_core = "2F3SqkpMfqnMQDxA75R6gEXYq9HQmKfEFMyH4F2fKJ7M"
+membra_tokenomics = "38tgbireEP2AFq5YQBroNN9wQTqAECUuDNYmRjkogKca"
+
+[programs.devnet]
+membra_core = "2F3SqkpMfqnMQDxA75R6gEXYq9HQmKfEFMyH4F2fKJ7M"
+membra_tokenomics = "38tgbireEP2AFq5YQBroNN9wQTqAECUuDNYmRjkogKca"
+
+[programs.mainnet]
+membra_core = "2F3SqkpMfqnMQDxA75R6gEXYq9HQmKfEFMyH4F2fKJ7M"
+membra_tokenomics = "38tgbireEP2AFq5YQBroNN9wQTqAECUuDNYmRjkogKca"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "devnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "npx tsx tests/membra_core.ts && npx tsx tests/membra_tokenomics.ts"

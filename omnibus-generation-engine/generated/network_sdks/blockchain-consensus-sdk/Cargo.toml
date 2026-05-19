@@ -1,0 +1,15 @@
+[package]
+name = "blockchain_consensus_sdk"
+version = "0.1.0"
+edition = "2021"
+description = "Pluggable BFT consensus engine with hot-swap validator sets."
+license = "MIT"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+async-trait = "0.1"
+tokio = { version = "1", features = ["full"] }
+
+[dev-dependencies]
+tokio-test = "0.4"

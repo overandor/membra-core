@@ -1,0 +1,19 @@
+[package]
+name = "deterministic_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "Fully reproducible kernel state; same prompt always produces identical token sequence and side effects."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

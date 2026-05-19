@@ -1,0 +1,10 @@
+[project]
+name = "compute_grid_sdk"
+version = "0.1.0"
+description = "Volunteer compute grid with task verification and reputation-weighted scheduling."
+requires-python = ">=3.10"
+dependencies = ["pydantic>=2.0", "anyio>=3.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

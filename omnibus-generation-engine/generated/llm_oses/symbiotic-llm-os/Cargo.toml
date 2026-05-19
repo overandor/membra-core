@@ -1,0 +1,19 @@
+[package]
+name = "symbiotic_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "Human and LLM share equal scheduling rights; the kernel arbitrates CPU time between human tasks and model thoughts."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

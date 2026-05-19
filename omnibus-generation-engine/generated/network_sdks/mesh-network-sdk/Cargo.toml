@@ -1,0 +1,15 @@
+[package]
+name = "mesh_network_sdk"
+version = "0.1.0"
+edition = "2021"
+description = "Self-healing mesh topology with OLSR-inspired routing for IoT and edge clusters."
+license = "MIT"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+async-trait = "0.1"
+tokio = { version = "1", features = ["full"] }
+
+[dev-dependencies]
+tokio-test = "0.4"

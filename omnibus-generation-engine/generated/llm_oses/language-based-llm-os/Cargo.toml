@@ -1,0 +1,19 @@
+[package]
+name = "language_based_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "OS implemented in a linearly-typed language where memory safety proves tensor shape correctness."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

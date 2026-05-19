@@ -1,0 +1,10 @@
+[project]
+name = "anonymous_mixnet_sdk"
+version = "0.1.0"
+description = "Layered encryption mixnet with Sphinx packet format and cover traffic."
+requires-python = ">=3.10"
+dependencies = ["pydantic>=2.0", "anyio>=3.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

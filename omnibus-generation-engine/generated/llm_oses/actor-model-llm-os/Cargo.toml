@@ -1,0 +1,19 @@
+[package]
+name = "actor_model_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "Every process is an actor; LLM tokens are messages with backpressure and supervision trees."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

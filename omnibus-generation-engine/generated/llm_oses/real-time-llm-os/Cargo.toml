@@ -1,0 +1,19 @@
+[package]
+name = "real_time_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "Hard real-time scheduler guaranteeing inference latency bounds for safety-critical LLM outputs."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

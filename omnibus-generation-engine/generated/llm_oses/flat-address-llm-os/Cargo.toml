@@ -1,0 +1,19 @@
+[package]
+name = "flat_address_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "Single global 64-bit address space; LLM KV-cache is memory-mapped across the entire cluster."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

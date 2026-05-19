@@ -1,0 +1,19 @@
+[package]
+name = "object_capability_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "Object-capability security; each LLM token generation requires a capability delegation chain."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

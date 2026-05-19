@@ -1,0 +1,15 @@
+[package]
+name = "storage_dht_sdk"
+version = "0.1.0"
+edition = "2021"
+description = "Mutable DHT with erasure-coded storage and proof-of-retrievability."
+license = "MIT"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+async-trait = "0.1"
+tokio = { version = "1", features = ["full"] }
+
+[dev-dependencies]
+tokio-test = "0.4"

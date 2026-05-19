@@ -1,0 +1,19 @@
+[package]
+name = "serverless_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "Cold-start optimized kernel for ephemeral LLM functions; keeps hot model weights in kernel-resident cache."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

@@ -1,0 +1,408 @@
+{
+  "version": "1.0.0",
+  "domain": "membra.omnibus",
+  "network_sdks": [
+    {
+      "id": "net-sdk-01",
+      "name": "mesh-network-sdk",
+      "description": "Self-healing mesh topology with OLSR-inspired routing for IoT and edge clusters.",
+      "languages": ["rust", "python", "c"],
+      "interfaces": ["MeshNode", "RoutingTable", "PacketForwarder", "TopologyMonitor"],
+      "protocols": ["olsr2", "babel", "802.11s"]
+    },
+    {
+      "id": "net-sdk-02",
+      "name": "p2p-content-sdk",
+      "description": "Content-addressed peer-to-peer distribution with Merkle verification.",
+      "languages": ["rust", "typescript", "go"],
+      "interfaces": ["ContentStore", "PeerManager", "MerkleVerifier", "BitswapEngine"],
+      "protocols": ["libp2p", "bitswap", "graphsync"]
+    },
+    {
+      "id": "net-sdk-03",
+      "name": "blockchain-consensus-sdk",
+      "description": "Pluggable BFT consensus engine with hot-swap validator sets.",
+      "languages": ["rust", "go"],
+      "interfaces": ["ConsensusEngine", "ValidatorSet", "BlockProposer", "FinalityGadget"],
+      "protocols": ["tendermint", "hotstuff", "pbft"]
+    },
+    {
+      "id": "net-sdk-04",
+      "name": "dag-ledger-sdk",
+      "description": "Directed acyclic graph ledger for high-throughput asynchronous consensus.",
+      "languages": ["rust", "go", "python"],
+      "interfaces": ["GraphStore", "TipSelector", "ConflictResolver", "Snapshotter"],
+      "protocols": ["iota", "hashgraph", "phantom"]
+    },
+    {
+      "id": "net-sdk-05",
+      "name": "federated-learning-sdk",
+      "description": "Decentralized ML training with differential privacy and secure aggregation.",
+      "languages": ["python", "rust", "cpp"],
+      "interfaces": ["Aggregator", "LocalTrainer", "PrivacyFilter", "ModelExporter"],
+      "protocols": ["fedavg", "fedprox", "scaffold"]
+    },
+    {
+      "id": "net-sdk-06",
+      "name": "iot-sensor-mesh-sdk",
+      "description": "Low-power sensor mesh with time-synchronized data fusion.",
+      "languages": ["c", "rust", "micropython"],
+      "interfaces": ["SensorNode", "DataFusion", "PowerManager", "Timesync"],
+      "protocols": ["mqtt-sn", "coap", "lora"]
+    },
+    {
+      "id": "net-sdk-07",
+      "name": "cdn-edge-sdk",
+      "description": "Edge-compute CDN with cache invalidation and push-based prefetch.",
+      "languages": ["rust", "go", "typescript"],
+      "interfaces": ["EdgeCache", "OriginProxy", "Prefetcher", "Invalidator"],
+      "protocols": ["http3", "quic", "srt"]
+    },
+    {
+      "id": "net-sdk-08",
+      "name": "neural-inference-network-sdk",
+      "description": "Distributed neural inference with pipeline parallelism and KV-cache sharding.",
+      "languages": ["rust", "cpp", "python"],
+      "interfaces": ["ModelShard", "PipelineRouter", "KVCacheManager", "TokenizerGateway"],
+      "protocols": ["nccl", "grpc", "rdma"]
+    },
+    {
+      "id": "net-sdk-09",
+      "name": "zero-trust-overlay-sdk",
+      "description": "Identity-aware overlay with mTLS, attestation, and micro-segmentation.",
+      "languages": ["rust", "go", "c"],
+      "interfaces": ["IdentityBroker", "Attestor", "PolicyEngine", "TunnelManager"],
+      "protocols": ["wireguard", "spiffe", "dice"]
+    },
+    {
+      "id": "net-sdk-10",
+      "name": "pub-sub-event-sdk",
+      "description": "Exactly-once event bus with ordered streams and consumer groups.",
+      "languages": ["rust", "go", "java"],
+      "interfaces": ["EventBus", "Publisher", "Subscriber", "StreamRouter"],
+      "protocols": ["kafka", "nats", "redisstreams"]
+    },
+    {
+      "id": "net-sdk-11",
+      "name": "gossip-protocol-sdk",
+      "description": "Epidemic gossip with anti-entropy and vector-clock reconciliation.",
+      "languages": ["rust", "erlang", "go"],
+      "interfaces": ["GossipAgent", "StateReconciler", "MembershipList", "AntiEntropy"],
+      "protocols": ["swim", "plumtree", "scuttlebutt"]
+    },
+    {
+      "id": "net-sdk-12",
+      "name": "byzantine-fault-tolerant-sdk",
+      "description": "BFT state machine replication with threshold signatures.",
+      "languages": ["rust", "go", "cpp"],
+      "interfaces": ["Replica", "ClientProxy", "ThresholdSigner", "ViewChanger"],
+      "protocols": ["pbft", "sbft", "minbft"]
+    },
+    {
+      "id": "net-sdk-13",
+      "name": "sharded-state-sdk",
+      "description": "Consistent-hashing state shards with cross-shard transaction atomicity.",
+      "languages": ["rust", "go", "java"],
+      "interfaces": ["ShardManager", "CrossShardTx", "ConsistentHasher", "Rebalancer"],
+      "protocols": ["two-phase-commit", "saga", "calvin"]
+    },
+    {
+      "id": "net-sdk-14",
+      "name": "cross-chain-bridge-sdk",
+      "description": "Trust-minimized bridge with light-client verification and relayer auctions.",
+      "languages": ["rust", "solidity", "go"],
+      "interfaces": ["LightClient", "RelayerAuction", "Lockbox", "Prover"],
+      "protocols": ["ibc", "layerzero", "wormhole"]
+    },
+    {
+      "id": "net-sdk-15",
+      "name": "time-synchronisation-sdk",
+      "description": "Sub-microsecond clock sync with Byzantine fault-tolerant time master election.",
+      "languages": ["rust", "c", "go"],
+      "interfaces": ["ClockSync", "MasterElection", "DelayEstimator", "LeapSecondHandler"],
+      "protocols": ["ptp", "ntp-bis", "huygens"]
+    },
+    {
+      "id": "net-sdk-16",
+      "name": "anonymous-mixnet-sdk",
+      "description": "Layered encryption mixnet with Sphinx packet format and cover traffic.",
+      "languages": ["rust", "go", "python"],
+      "interfaces": ["MixNode", "SphinxBuilder", "PathSelector", "CoverTraffic"],
+      "protocols": ["sphinx", "loopix", "nym"]
+    },
+    {
+      "id": "net-sdk-17",
+      "name": "storage-dht-sdk",
+      "description": "Mutable DHT with erasure-coded storage and proof-of-retrievability.",
+      "languages": ["rust", "go", "python"],
+      "interfaces": ["DHTNode", "ErasureCoder", "PoRVerifier", "Republisher"],
+      "protocols": ["kademlia", "s-kademlia", "pastry"]
+    },
+    {
+      "id": "net-sdk-18",
+      "name": "compute-grid-sdk",
+      "description": "Volunteer compute grid with task verification and reputation-weighted scheduling.",
+      "languages": ["rust", "python", "go"],
+      "interfaces": ["TaskScheduler", "WorkerPool", "ResultVerifier", "ReputationTable"],
+      "protocols": ["boinc", "folding", "seti"]
+    },
+    {
+      "id": "net-sdk-19",
+      "name": "identity-did-sdk",
+      "description": "Self-sovereign identity with verifiable credentials and selective disclosure.",
+      "languages": ["rust", "typescript", "python"],
+      "interfaces": ["DIDResolver", "CredentialIssuer", "SelectiveDisclosure", "RevocationRegistry"],
+      "protocols": ["did-core", "vc-data-model", "oidc4vc"]
+    },
+    {
+      "id": "net-sdk-20",
+      "name": "streaming-media-sdk",
+      "description": "Adaptive bitrate streaming with WebRTC mesh and SRT relay fallback.",
+      "languages": ["rust", "cpp", "typescript"],
+      "interfaces": ["MediaPipeline", "ABRController", "WebRTCMesh", "SRTRelay"],
+      "protocols": ["webrtc", "srt", "dash"]
+    }
+  ],
+  "llm_oses": [
+    {
+      "id": "llm-os-01",
+      "name": "microkernel-llm-os",
+      "description": "Microkernel where LLM inference runs as a privileged server with capability-based IPC.",
+      "kernel_type": "microkernel",
+      "llm_subsystem": "inference_server",
+      "languages": ["rust", "c"]
+    },
+    {
+      "id": "llm-os-02",
+      "name": "exokernel-llm-os",
+      "description": "Exokernel exposing raw GPU/TPU hardware to user-space LLM runtimes with secure multiplexing.",
+      "kernel_type": "exokernel",
+      "llm_subsystem": "hardware_multiplexer",
+      "languages": ["rust", "c", "cpp"]
+    },
+    {
+      "id": "llm-os-03",
+      "name": "unikernel-llm-os",
+      "description": "Single-address-space unikernel optimized for single-tenant LLM inference on cloud hypervisors.",
+      "kernel_type": "unikernel",
+      "llm_subsystem": "monolithic_inference",
+      "languages": ["rust", "c"]
+    },
+    {
+      "id": "llm-os-04",
+      "name": "distributed-llm-os",
+      "description": "OS spanning multiple nodes where processes migrate toward GPU-equipped hosts automatically.",
+      "kernel_type": "distributed",
+      "llm_subsystem": "process_migrator",
+      "languages": ["rust", "go", "c"]
+    },
+    {
+      "id": "llm-os-05",
+      "name": "real-time-llm-os",
+      "description": "Hard real-time scheduler guaranteeing inference latency bounds for safety-critical LLM outputs.",
+      "kernel_type": "real-time",
+      "llm_subsystem": "bounded_inference",
+      "languages": ["c", "rust", "ada"]
+    },
+    {
+      "id": "llm-os-06",
+      "name": "capability-based-llm-os",
+      "description": "Capability system where file handles, GPU contexts, and model weights are all capabilities.",
+      "kernel_type": "capability",
+      "llm_subsystem": "capability_gpu",
+      "languages": ["rust", "c"]
+    },
+    {
+      "id": "llm-os-07",
+      "name": "event-driven-llm-os",
+      "description": "Kernel dispatch is entirely event-driven; LLM prompts are high-priority kernel events.",
+      "kernel_type": "event-driven",
+      "llm_subsystem": "event_router",
+      "languages": ["rust", "c"]
+    },
+    {
+      "id": "llm-os-08",
+      "name": "actor-model-llm-os",
+      "description": "Every process is an actor; LLM tokens are messages with backpressure and supervision trees.",
+      "kernel_type": "actor-model",
+      "llm_subsystem": "token_actor",
+      "languages": ["rust", "erlang-vm"]
+    },
+    {
+      "id": "llm-os-09",
+      "name": "dataflow-llm-os",
+      "description": "OS structured as a dataflow graph; LLM layers are nodes, tensors flow on edges.",
+      "kernel_type": "dataflow",
+      "llm_subsystem": "tensor_graph",
+      "languages": ["rust", "cpp", "c"]
+    },
+    {
+      "id": "llm-os-10",
+      "name": "reactive-llm-os",
+      "description": "Reactive streams at kernel level; LLM outputs propagate as observable hot streams.",
+      "kernel_type": "reactive",
+      "llm_subsystem": "observable_output",
+      "languages": ["rust", "cpp"]
+    },
+    {
+      "id": "llm-os-11",
+      "name": "container-native-llm-os",
+      "description": "Kernel is a container orchestrator; every LLM inference is a sandboxed container with cgroup v3.",
+      "kernel_type": "container-native",
+      "llm_subsystem": "inference_container",
+      "languages": ["rust", "go", "c"]
+    },
+    {
+      "id": "llm-os-12",
+      "name": "serverless-llm-os",
+      "description": "Cold-start optimized kernel for ephemeral LLM functions; keeps hot model weights in kernel-resident cache.",
+      "kernel_type": "serverless",
+      "llm_subsystem": "hot_weight_cache",
+      "languages": ["rust", "go", "c"]
+    },
+    {
+      "id": "llm-os-13",
+      "name": "peer-to-peer-llm-os",
+      "description": "OS without central servers; LLM weights are erasure-coded across peer devices.",
+      "kernel_type": "p2p",
+      "llm_subsystem": "distributed_weights",
+      "languages": ["rust", "go", "c"]
+    },
+    {
+      "id": "llm-os-14",
+      "name": "mesh-llm-os",
+      "description": "Mesh-topology OS for edge clusters; inference workloads route through nearest GPU hop.",
+      "kernel_type": "mesh",
+      "llm_subsystem": "nearest_gpu_router",
+      "languages": ["rust", "c"]
+    },
+    {
+      "id": "llm-os-15",
+      "name": "hierarchical-llm-os",
+      "description": "Ring-0 hosts small model, delegates to ring-1 medium, ring-2 large model via hierarchical calls.",
+      "kernel_type": "hierarchical",
+      "llm_subsystem": "tiered_model",
+      "languages": ["rust", "c", "cpp"]
+    },
+    {
+      "id": "llm-os-16",
+      "name": "flat-address-llm-os",
+      "description": "Single global 64-bit address space; LLM KV-cache is memory-mapped across the entire cluster.",
+      "kernel_type": "flat-address",
+      "llm_subsystem": "global_kv_cache",
+      "languages": ["rust", "c"]
+    },
+    {
+      "id": "llm-os-17",
+      "name": "object-capability-llm-os",
+      "description": "Object-capability security; each LLM token generation requires a capability delegation chain.",
+      "kernel_type": "object-capability",
+      "llm_subsystem": "delegated_generation",
+      "languages": ["rust", "javascript"]
+    },
+    {
+      "id": "llm-os-18",
+      "name": "language-based-llm-os",
+      "description": "OS implemented in a linearly-typed language where memory safety proves tensor shape correctness.",
+      "kernel_type": "language-based",
+      "llm_subsystem": "shape_prover",
+      "languages": ["rust", "idris", "ats"]
+    },
+    {
+      "id": "llm-os-19",
+      "name": "virtualized-llm-os",
+      "description": "Type-1 hypervisor hosting para-virtualized LLM guests with direct GPU passthrough.",
+      "kernel_type": "virtualized",
+      "llm_subsystem": "gpu_passthrough",
+      "languages": ["rust", "c", "cpp"]
+    },
+    {
+      "id": "llm-os-20",
+      "name": "baremetal-llm-os",
+      "description": "No abstractions; user code directly programs GPU DMA rings and token decode loops.",
+      "kernel_type": "baremetal",
+      "llm_subsystem": "direct_dma",
+      "languages": ["c", "rust", "assembly"]
+    },
+    {
+      "id": "llm-os-21",
+      "name": "mobile-llm-os",
+      "description": "Battery-aware scheduler quantizing models to NPU and falling back to CPU on thermal throttling.",
+      "kernel_type": "mobile",
+      "llm_subsystem": "thermal_quantizer",
+      "languages": ["rust", "c", "cpp"]
+    },
+    {
+      "id": "llm-os-22",
+      "name": "embedded-llm-os",
+      "description": "Sub-MB kernel for MCUs; runs TinyML models with on-device fine-tuning via federated delta.",
+      "kernel_type": "embedded",
+      "llm_subsystem": "tinyml_federator",
+      "languages": ["c", "rust", "zephyr"]
+    },
+    {
+      "id": "llm-os-23",
+      "name": "edge-llm-os",
+      "description": "Gateway OS caching model shards and serving them to low-power clients over LoRa/WiFi.",
+      "kernel_type": "edge",
+      "llm_subsystem": "shard_cache",
+      "languages": ["rust", "go", "c"]
+    },
+    {
+      "id": "llm-os-24",
+      "name": "cloud-llm-os",
+      "description": "Multi-tenant kernel with GPU time-slicing and spot-preemptible LLM inference jobs.",
+      "kernel_type": "cloud",
+      "llm_subsystem": "gpu_timeslicer",
+      "languages": ["rust", "go", "c"]
+    },
+    {
+      "id": "llm-os-25",
+      "name": "hybrid-llm-os",
+      "description": "Seamlessly offloads between on-device NPU, edge GPU, and cloud TPU based on latency cost.",
+      "kernel_type": "hybrid",
+      "llm_subsystem": "cost_router",
+      "languages": ["rust", "c", "cpp"]
+    },
+    {
+      "id": "llm-os-26",
+      "name": "deterministic-llm-os",
+      "description": "Fully reproducible kernel state; same prompt always produces identical token sequence and side effects.",
+      "kernel_type": "deterministic",
+      "llm_subsystem": "reproducible_engine",
+      "languages": ["rust", "c"]
+    },
+    {
+      "id": "llm-os-27",
+      "name": "probabilistic-llm-os",
+      "description": "Kernel schedules based on expected information gain; high-entropy prompts get priority.",
+      "kernel_type": "probabilistic",
+      "llm_subsystem": "entropy_scheduler",
+      "languages": ["rust", "python", "c"]
+    },
+    {
+      "id": "llm-os-28",
+      "name": "self-hosting-llm-os",
+      "description": "OS can rewrite its own kernel source via LLM and hot-reload without reboot.",
+      "kernel_type": "self-hosting",
+      "llm_subsystem": "kernel_codegen",
+      "languages": ["rust", "c", "lisp"]
+    },
+    {
+      "id": "llm-os-29",
+      "name": "recursive-llm-os",
+      "description": "OS runs a smaller OS inside itself to validate speculative LLM outputs before committing to host state.",
+      "kernel_type": "recursive",
+      "llm_subsystem": "speculative_vm",
+      "languages": ["rust", "c"]
+    },
+    {
+      "id": "llm-os-30",
+      "name": "symbiotic-llm-os",
+      "description": "Human and LLM share equal scheduling rights; the kernel arbitrates CPU time between human tasks and model thoughts.",
+      "kernel_type": "symbiotic",
+      "llm_subsystem": "fair_arbiter",
+      "languages": ["rust", "c", "haskell"]
+    }
+  ]
+}

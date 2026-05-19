@@ -1,0 +1,19 @@
+[package]
+name = "event_driven_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "Kernel dispatch is entirely event-driven; LLM prompts are high-priority kernel events."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

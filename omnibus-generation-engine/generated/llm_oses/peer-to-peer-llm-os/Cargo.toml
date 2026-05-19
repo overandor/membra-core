@@ -1,0 +1,19 @@
+[package]
+name = "peer_to_peer_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "OS without central servers; LLM weights are erasure-coded across peer devices."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]

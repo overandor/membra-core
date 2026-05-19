@@ -1,0 +1,10 @@
+[project]
+name = "federated_learning_sdk"
+version = "0.1.0"
+description = "Decentralized ML training with differential privacy and secure aggregation."
+requires-python = ">=3.10"
+dependencies = ["pydantic>=2.0", "anyio>=3.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

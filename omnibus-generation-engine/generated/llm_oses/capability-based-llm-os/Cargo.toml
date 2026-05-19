@@ -1,0 +1,19 @@
+[package]
+name = "capability_based_llm_os"
+version = "0.1.0"
+edition = "2021"
+description = "Capability system where file handles, GPU contexts, and model weights are all capabilities."
+license = "MIT"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[dependencies]
+
+[dependencies.bootloader]
+version = "0.9"
+features = ["map_physical_memory"]
