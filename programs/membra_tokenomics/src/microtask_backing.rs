@@ -363,7 +363,11 @@ impl MicrotaskManager {
     }
     
     fn generate_task_id() -> String {
-        format!("task_{}", Self::current_timestamp())
+        let ts = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        format!("task_{}", ts)
     }
     
     fn generate_result_id() -> String {
@@ -662,7 +666,7 @@ impl MicrotaskManager {
         tasks
             .values()
             .filter(|task| task.status == TaskStatus::Pending)
-            .filter(|task| type_filter == MicrotaskType::DataLabeling || task.task_type == type_filter)
+            .filter(|task| task.task_type == type_filter)
             .cloned()
             .collect()
     }

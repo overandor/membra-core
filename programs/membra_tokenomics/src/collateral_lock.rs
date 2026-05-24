@@ -118,20 +118,16 @@ pub fn calculate_collateral_value(
         .checked_add(gpu_hourly)
         .unwrap();
     
-    // Calculate duration in hours (with precision)
-    let duration_hours_scaled = duration_sec.checked_mul(100).unwrap(); // x100 for precision
-    let hours_per_sec_scaled = 100u64.checked_div(3600).unwrap(); // 100/3600
-    
-    let total_value_scaled = hourly_value
-        .checked_mul(duration_hours_scaled)
+    // Calculate total value: hourly_value * duration_sec / 3600
+    let total_value = hourly_value
+        .checked_mul(duration_sec)
         .unwrap()
-        .checked_div(hours_per_sec_scaled)
+        .checked_div(3600)
         .unwrap();
     
     // Apply collateral multiplier
-    let multiplier = multiplier_bps as u64;
-    let collateral_value = total_value_scaled
-        .checked_mul(multiplier)
+    let collateral_value = total_value
+        .checked_mul(multiplier_bps as u64)
         .unwrap()
         .checked_div(10_000)
         .unwrap();
