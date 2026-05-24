@@ -581,8 +581,29 @@ pub fn mint_from_capacity_proof(ctx: Context<MintFromCapacityProof>) -> Result<(
 // MONETARY POLICY ENGINE
 // =============================================================================
 
+// =============================================================================
+// FORMAL INVARIANTS (Phase 1)
+// =============================================================================
+// INV-1: Issuance Conservation — mint >= 0 always (monotonic, no negative mint)
+// INV-2: Replay Impossibility — nullifier used=true => subsequent mint reverts
+// INV-3: Bounded Inflation — mint <= max_mint_per_proof per proof (hard cap)
+// INV-4: Verifier Threshold Integrity — mint requires attestation_count >= MIN_VERIFIERS
+//        (enforced at instruction level, not in this pure function)
+// INV-5: Epoch Consistency — calculate_mint_amount is stateless w.r.t. epochs;
+//        epoch rollover is handled by config update before invocation
+// INV-6: Tier Monotonicity — higher collateral_tier => tier_mult non-decreasing
+// INV-7: Difficulty Boundedness — difficulty_score in [0, 10_000] => factor in [0, 1.0]
+// INV-8: Verifier Bonus Boundedness — verifier_bonus in [10_000, 15_000] bps => [1.0x, 1.5x]
+// INV-9: Network Adjustment Boundedness — network_adj in [0, 10_000] bps => [0, 1.0x]
+// INV-10: Scaling Consistency — denominator 10^16 ensures (base * tier * diff * ver * net)
+//         yields correct decimal precision without overflow (computed in u128)
+// =============================================================================
+
 /// Core formula for ZK-PoPC monetary creation:
 ///   mint = base * tier_mult * difficulty/10000 * verifier_mult * network_adj
+///
+/// Precondition: proof.difficulty_score <= 10_000
+/// Postcondition: 0 <= result <= config.max_mint_per_proof
 fn calculate_mint_amount(
     proof: &CapacityProof,
     config: &ZkSeigniorageConfig,
@@ -952,5 +973,154 @@ mod tests {
         config.current_epoch += 1;
         config.last_epoch_timestamp = future_time;
         assert_eq!(config.current_epoch, 2);
+    }
+
+    #[test]
+    fn test_tier_boundary_exact_thresholds() {
+        let config = default_config();
+        assert_eq!(derive_collateral_tier(0, &config), 1);
+        assert_eq!(derive_collateral_tier(config.tier_1_threshold, &config), 1);
+        assert_eq!(derive_collateral_tier(config.tier_2_threshold - 1, &config), 1);
+        assert_eq!(derive_collateral_tier(config.tier_2_threshold, &config), 2);
+        assert_eq!(derive_collateral_tier(config.tier_3_threshold - 1, &config), 2);
+        assert_eq!(derive_collateral_tier(config.tier_3_threshold, &config), 3);
+        assert_eq!(derive_collateral_tier(config.tier_4_threshold - 1, &config), 3);
+        assert_eq!(derive_collateral_tier(config.tier_4_threshold, &config), 4);
+        assert_eq!(derive_collateral_tier(config.tier_5_threshold - 1, &config), 4);
+        assert_eq!(derive_collateral_tier(config.tier_5_threshold, &config), 5);
+    }
+
+    #[test]
+    fn test_verifier_bonus_uses_attestation_count() {
+        let config = default_config();
+        let verifier = Pubkey::new_unique();
+
+        let duplicate_verifier_proof = CapacityProof {
+            prover: Pubkey::default(),
+            proof_id: [1u8; HASH_SIZE],
+            collateral_lock: Pubkey::default(),
+            collateral_tier: 5,
+            input_commitment: [0u8; HASH_SIZE],
+            output_commitment: [0u8; HASH_SIZE],
+            circuit_identifier: "test".to_string(),
+            difficulty_score: 10_000,
+            compute_units_consumed: 10_000,
+            epoch: 1,
+            verifier_attestations: vec![
+                VerifierAttestation {
+                    verifier,
+                    attestation_hash: [0u8; HASH_SIZE],
+                    timestamp: 0,
+                    signature_valid: true,
+                },
+                VerifierAttestation {
+                    verifier,
+                    attestation_hash: [1u8; HASH_SIZE],
+                    timestamp: 1,
+                    signature_valid: true,
+                },
+            ],
+            attestation_count: 3,
+            verification_status: ProofStatus::Verified as u8,
+            mint_amount: 0,
+            minted_at: 0,
+            nullifier_hash: [0u8; HASH_SIZE],
+            bump: 255,
+        };
+
+        let unique_verifier_proof = CapacityProof {
+            verifier_attestations: vec![
+                VerifierAttestation {
+                    verifier,
+                    attestation_hash: [0u8; HASH_SIZE],
+                    timestamp: 0,
+                    signature_valid: true,
+                },
+                VerifierAttestation {
+                    verifier: Pubkey::new_unique(),
+                    attestation_hash: [1u8; HASH_SIZE],
+                    timestamp: 1,
+                    signature_valid: true,
+                },
+            ],
+            ..duplicate_verifier_proof.clone()
+        };
+
+        let mint_with_duplicates = calculate_mint_amount(&duplicate_verifier_proof, &config).unwrap();
+        let mint_with_unique_verifiers = calculate_mint_amount(&unique_verifier_proof, &config).unwrap();
+
+        assert_eq!(mint_with_unique_verifiers, 2_750_000);
+        assert_eq!(mint_with_duplicates, mint_with_unique_verifiers);
+    }
+
+    #[test]
+    fn test_zero_collateral_uses_tier_one_baseline() {
+        let config = default_config();
+        let proof = CapacityProof {
+            prover: Pubkey::default(),
+            proof_id: [2u8; HASH_SIZE],
+            collateral_lock: Pubkey::default(),
+            collateral_tier: 0,
+            input_commitment: [0u8; HASH_SIZE],
+            output_commitment: [0u8; HASH_SIZE],
+            circuit_identifier: "test".to_string(),
+            difficulty_score: 10_000,
+            compute_units_consumed: 10_000,
+            epoch: 1,
+            verifier_attestations: vec![
+                VerifierAttestation {
+                    verifier: Pubkey::new_unique(),
+                    attestation_hash: [0u8; HASH_SIZE],
+                    timestamp: 0,
+                    signature_valid: true,
+                },
+                VerifierAttestation {
+                    verifier: Pubkey::new_unique(),
+                    attestation_hash: [1u8; HASH_SIZE],
+                    timestamp: 1,
+                    signature_valid: true,
+                },
+            ],
+            attestation_count: 2,
+            verification_status: ProofStatus::Verified as u8,
+            mint_amount: 0,
+            minted_at: 0,
+            nullifier_hash: [0u8; HASH_SIZE],
+            bump: 255,
+        };
+
+        let mint = calculate_mint_amount(&proof, &config).unwrap();
+        assert_eq!(mint, 250_000);
+    }
+
+    #[test]
+    fn test_large_inputs_are_capped_without_overflow() {
+        let mut config = default_config();
+        config.max_mint_per_proof = 1_234_567;
+        config.total_tokens_minted = u64::MAX;
+        config.total_proven_capacity = 1;
+
+        let proof = CapacityProof {
+            prover: Pubkey::default(),
+            proof_id: [3u8; HASH_SIZE],
+            collateral_lock: Pubkey::default(),
+            collateral_tier: 5,
+            input_commitment: [0u8; HASH_SIZE],
+            output_commitment: [0u8; HASH_SIZE],
+            circuit_identifier: "stress".to_string(),
+            difficulty_score: u64::MAX,
+            compute_units_consumed: u64::MAX,
+            epoch: u64::MAX,
+            verifier_attestations: vec![],
+            attestation_count: 255,
+            verification_status: ProofStatus::Verified as u8,
+            mint_amount: 0,
+            minted_at: 0,
+            nullifier_hash: [0u8; HASH_SIZE],
+            bump: 255,
+        };
+
+        let mint = calculate_mint_amount(&proof, &config).unwrap();
+        assert!(mint <= config.max_mint_per_proof);
     }
 }
