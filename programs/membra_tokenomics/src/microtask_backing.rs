@@ -482,16 +482,17 @@ impl MicrotaskManager {
             result.result_data = result_data.to_string();
             result.proof = proof;
             result.submitted_at = Self::current_timestamp();
-            
+            let submitted_at = result.submitted_at;
+
             // Simple hash for result
-            let hash_input = format!("{}{}", result_data, result.submitted_at);
+            let hash_input = format!("{}{}", result_data, submitted_at);
             result.result_hash = self.simple_hash(&hash_input);
-            
+
             let result_hash = result.result_hash.clone();
             results.insert(result_id.clone(), result);
-            
+
             task.status = TaskStatus::Completed;
-            task.completed_at = result.submitted_at;
+            task.completed_at = submitted_at;
             task.result_hash = result_hash;
             
             return result_id;

@@ -5,14 +5,17 @@ skip-lint = false
 [programs.localnet]
 membra_core = "2F3SqkpMfqnMQDxA75R6gEXYq9HQmKfEFMyH4F2fKJ7M"
 membra_tokenomics = "38tgbireEP2AFq5YQBroNN9wQTqAECUuDNYmRjkogKca"
+activity_provenance = "ACTv111111111111111111111111111111111111111"
 
 [programs.devnet]
 membra_core = "2F3SqkpMfqnMQDxA75R6gEXYq9HQmKfEFMyH4F2fKJ7M"
 membra_tokenomics = "38tgbireEP2AFq5YQBroNN9wQTqAECUuDNYmRjkogKca"
+activity_provenance = "ACTv111111111111111111111111111111111111111"
 
 [programs.mainnet]
 membra_core = "2F3SqkpMfqnMQDxA75R6gEXYq9HQmKfEFMyH4F2fKJ7M"
 membra_tokenomics = "38tgbireEP2AFq5YQBroNN9wQTqAECUuDNYmRjkogKca"
+activity_provenance = "ACTv111111111111111111111111111111111111111"
 
 [registry]
 url = "https://api.apr.dev"

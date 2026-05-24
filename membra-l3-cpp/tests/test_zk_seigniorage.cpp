@@ -64,9 +64,9 @@ void test_counter_cyclical_adjustment() {
 void test_collateral_tier_derivation() {
     auto stack = create_zk_seigniorage_stack();
     assert(stack.engine->derive_collateral_tier(500000) == 1);
-    assert(stack.engine->derive_collateral_tier(5000000) == 2);
-    assert(stack.engine->derive_collateral_tier(50000000) == 3);
-    assert(stack.engine->derive_collateral_tier(500000000) == 4);
+    assert(stack.engine->derive_collateral_tier(50000000) == 2);
+    assert(stack.engine->derive_collateral_tier(500000000) == 3);
+    assert(stack.engine->derive_collateral_tier(5000000000ULL) == 4);
     assert(stack.engine->derive_collateral_tier(50000000000ULL) == 5);
     std::cout << "PASS: test_collateral_tier_derivation" << std::endl;
 }

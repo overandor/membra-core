@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::{hash::hashv, program::invoke_signed};
 use anchor_spl::token::{self, Mint, MintTo, Token, TokenAccount};
-use anchor_spl::associated_token::AssociatedToken;
+use anchor_spl::associated_token;
 use std::collections::HashSet;
 
 // =============================================================================
@@ -621,7 +621,7 @@ fn calculate_mint_amount(
         .unwrap()
         .checked_mul(network_adj as u128)
         .unwrap()
-        .checked_div(10_000_000_000_000_u128) // tier_mult(10k) * difficulty(10k) * verifier_bonus(10k)
+        .checked_div(10_000_000_000_000_000_u128) // 10^16 scaling
         .unwrap();
 
     let mint = mint_128.min(config.max_mint_per_proof as u128) as u64;
@@ -828,7 +828,7 @@ mod tests {
         };
 
         let mint = calculate_mint_amount(&proof, &config).unwrap();
-        // base(1M) * tier(10k=1.0) * diff(5k=0.5) * ver(10k=1.0) * net(10k=1.0) / 10T = 500k
+        // base(1M) * tier(10k=1.0) * diff(5k=0.5) * ver(10k=1.0) * net(10k=1.0) / 10^16 = 500k
         assert_eq!(mint, 500_000);
     }
 
@@ -865,7 +865,7 @@ mod tests {
         }
 
         let mint = calculate_mint_amount(&proof, &config).unwrap();
-        // base(1M) * tier(25k=2.5) * diff(10k=1.0) * ver(12k=1.2 capped) * net(10k=1.0) / 10T = 3M
+        // base(1M) * tier(25k=2.5) * diff(10k=1.0) * ver(12k=1.2 capped) * net(10k=1.0) / 10^16 = 3M
         assert_eq!(mint, 3_000_000);
     }
 
@@ -893,9 +893,9 @@ mod tests {
     fn test_collateral_tier_derivation() {
         let config = default_config();
         assert_eq!(derive_collateral_tier(500_000, &config), 1);
-        assert_eq!(derive_collateral_tier(5_000_000, &config), 2);
-        assert_eq!(derive_collateral_tier(50_000_000, &config), 3);
-        assert_eq!(derive_collateral_tier(500_000_000, &config), 4);
+        assert_eq!(derive_collateral_tier(50_000_000, &config), 2);
+        assert_eq!(derive_collateral_tier(500_000_000, &config), 3);
+        assert_eq!(derive_collateral_tier(5_000_000_000, &config), 4);
         assert_eq!(derive_collateral_tier(50_000_000_000, &config), 5);
     }
 

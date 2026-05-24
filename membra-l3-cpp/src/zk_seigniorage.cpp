@@ -54,7 +54,7 @@ uint64_t MonetaryPolicyEngine::calculate_mint_amount(const CapacityProof& proof)
     mint *= difficulty;
     mint *= verifier_bonus;
     mint *= network_adj;
-    mint /= 10000000000000ULL; // 10^13 = tier(10k) * diff(10k) * verifier(10k)
+    mint /= 10000000000000000ULL; // 10^16
 
     uint64_t result = static_cast<uint64_t>(mint);
     if (result > config_->max_mint_per_proof) {
